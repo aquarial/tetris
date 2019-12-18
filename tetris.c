@@ -146,7 +146,7 @@ void show(int stateId) {
 	) {
 		printState(stateId);
 	}
-	
+
 	return;
 }
 
@@ -237,12 +237,12 @@ char populateLandings(int stateId) {
 		direction, so examine the possibilities */
 		else {
 
-			/* next State is already marked "reachable"? Then all 
+			/* next State is already marked "reachable"? Then all
 			calculations for it have already been done. NEVER MIND */
 			if(getState(nextStateId).reachable == TRUE) {
 				continue;
 			}
-			
+
 			/* Collision: ignore it */
 			if(collision(nextStateId) == TRUE) {
 				continue;
@@ -254,7 +254,7 @@ char populateLandings(int stateId) {
 			}
 		}
 	}
-	
+
 	/* If we get all the way here then the list is populated and no line can be made
 	using this piece */
 	return FALSE;
@@ -287,7 +287,7 @@ char pieceWinner(void) {
 		#endif
 		return PLAYER;
 	}
-	
+
 	/* Otherwise, iterate over all landing sites looking for further strategy */
 	short y = 0;
 	struct State state;
@@ -300,7 +300,7 @@ char pieceWinner(void) {
 		for(y = state.yTop; y < state.yBottom; y++) {
 			well[y] |= state.grid[y];
 		}
-		
+
 		depth++;
 		whoWins = wellWinner();
 		depth--;
@@ -320,7 +320,7 @@ char pieceWinner(void) {
 
 			return PLAYER;
 		}
-		
+
 		/* AI wins: continue */
 	}
 
@@ -349,7 +349,7 @@ char wellWinner(void) {
 
 	/* depth is populated already */
 	for(setPieceId(0); getPieceId() < NUMPIECES; incrementPieceId()) {
-	
+
 		/* AI wins by supplying this piece? */
 		if(pieceWinner() == AI) {
 			#if SHOW
@@ -378,7 +378,7 @@ int main(int argc, char ** argv) {
 	for(y = 0; y < FULLHEIGHT; y++) {
 		well[y] = 0;
 	}
-	
+
 	/* solve the empty well */
 	time(&start);
 	time(&last);

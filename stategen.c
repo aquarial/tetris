@@ -59,12 +59,12 @@ struct Piece {
 	short spawnXPos; /* varies depending on whether the well has odd or even width */
 	short spawnYPos;
 	char numOrientations;
-	
+
 	/* "masks" is the name of a pointer. The pointer is a pointer to an array.
 	The number of elements in the array is BOXSIZE. Each element of the array is
 	a short. */
 	short (* masks)[BOXSIZE];
-	
+
 	short numStates;
 };
 
@@ -121,7 +121,7 @@ struct State {
 	/* is this State completely above/outside of the visible playing field, such
 	that landing here ends the game immediately (1), or not (0)? */
 	char outOfBounds;
-	
+
 	/* does this State overlap any spawning State, such that the AI could spawn
 	a new piece overlapping it in turn (1), or not (0)? */
 	char overlapsSpawn;
@@ -129,10 +129,10 @@ struct State {
 	/* is this state currently reachable (1) or not (0)? This is the only non-static
 	piece of information and will be rewritten many times during execution */
 	char reachable;
-	
+
 	/* What index in the list am I? 0 = first */
 	short i;
-	
+
 	/* What's next in this linked list, if anything? (NULL = this is the end) */
 	struct State * successor;
 };
@@ -242,7 +242,7 @@ struct State State(short pieceId, short orientationId, short xPos, short yPos) {
 				printf("Can't check for spawn-time collisions until all spawn States are populated. Refactor!\n");
 				exit(1);
 			}
-			
+
 			/* Check for collision. */
 			for(y = 0; y < FULLHEIGHT; y++) {
 				if(state.grid[y] & otherSpawnPtr->grid[y]) {
@@ -251,13 +251,13 @@ struct State State(short pieceId, short orientationId, short xPos, short yPos) {
 			}
 		}
 	}
-	
+
 	state.reachable = 0;
 
 	/* Just get the next number. We'll increment numStates elsewhere if this
 	State actually gets saved, which isn't guaranteed. */
 	state.i = pieces[pieceId].numStates;
-	
+
 	/* Linked list stuffs */
 	state.successor = NULL;
 
@@ -376,7 +376,7 @@ struct State * storeState(struct State state) {
 	if(states[state.pieceId] == NULL) {
 		states[state.pieceId] = newPtr;
 	}
-	
+
 	/* List has elements, must find the end of it */
 	else {
 		struct State * statePtr = states[state.pieceId];
@@ -555,7 +555,7 @@ int main(int argc, char ** argv) {
 	and is therefore the maximum depth to which we anticipate needing to search.
 	*/
 	fprintf(out, "#define MAXDEPTH %d\n", (FULLHEIGHT * (WIDTH - 1)) / 4);
-	
+
 	/* THIS records the landing state stack. MAXSTATES is the maximum number
 	of possible distinct landing states for any well. It's a massive overestimate
 	but never mind */
@@ -586,12 +586,12 @@ int main(int argc, char ** argv) {
 		fprintf(out, "struct State %cStates[] = {\n", pieces[pieceId].letter);
 		struct State * statePtr = states[pieceId];
 		while(statePtr != NULL) {
-			
+
 			fprintf(out, "\t{");
-			
+
 			fprintf(out, "%2d, ", statePtr->yTop);
 			fprintf(out, "%2d, ", statePtr->yBottom);
-			
+
 			fprintf(out, "{");
 			short y = 0;
 			for(y = 0; y < FULLHEIGHT; y++) {
@@ -601,7 +601,7 @@ int main(int argc, char ** argv) {
 				}
 			}
 			fprintf(out, "}, ");
-			
+
 			fprintf(out, "{");
 			short keyId = 0;
 			for(keyId = 0; keyId < NUMCONTROLS; keyId++) {
@@ -611,7 +611,7 @@ int main(int argc, char ** argv) {
 				}
 			}
 			fprintf(out, "}, ");
-			
+
 			fprintf(out, "%5s, ", (statePtr->outOfBounds   ? "TRUE" : "FALSE"));
 			fprintf(out, "%5s, ", (statePtr->overlapsSpawn ? "TRUE" : "FALSE"));
 			fprintf(out, "%5s"  , (statePtr->reachable     ? "TRUE" : "FALSE"));
