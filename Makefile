@@ -6,7 +6,7 @@ bin/tetris: tetris.c states.c
 
 states.c: stategen.c core.c bin
 	gcc -o bin/stategen stategen.c
-	./bin/stategen > states.c
+	./bin/stategen states.c
 
 bin:
 	mkdir bin
