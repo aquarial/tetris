@@ -99,6 +99,7 @@ void show(int stateId) {
 	short x = 0;
 	short y = 0;
 
+	system("clear");
 	system("cls");
 	printf("+");
 	for(x = 0; x < WIDTH; x++) {
