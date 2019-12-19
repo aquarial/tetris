@@ -1,3 +1,6 @@
+CC=gcc
+CFLAGS=-std=gnu11 -Wall -g3 -O3 -march=native
+
 bin/tetris: tetris.c states.c
 	gcc -o bin/tetris tetris.c
 
