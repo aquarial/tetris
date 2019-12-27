@@ -2,8 +2,6 @@
 ## Project
 #################
 
-# ignore built objects
-states.c
 
 #################
 ## Eclipse
